@@ -4,10 +4,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.firelord.socialx.fragments.LoginFragment
-import com.firelord.socialx.fragments.SignupFragment
+import com.firelord.socialx.LoginFragment
+import com.firelord.socialx.SignUpFragment
 
-class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager,lifecycle)
+class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager,lifecycle)
 {
     override fun getItemCount(): Int {
         return 2
@@ -19,7 +19,7 @@ class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle): F
                 LoginFragment()
             }
             1->{
-                SignupFragment()
+                SignUpFragment()
             }
             else->{
                 Fragment()

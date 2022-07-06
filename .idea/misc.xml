@@ -3,12 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/call.xml" value="0.2455" />
+        <entry key="app/src/main/res/drawable-v24/lock.xml" value="0.2455" />
+        <entry key="app/src/main/res/drawable-v24/mail.xml" value="0.2455" />
+        <entry key="app/src/main/res/drawable-v24/person.xml" value="0.2455" />
+        <entry key="app/src/main/res/drawable-v24/search.xml" value="0.2455" />
+        <entry key="app/src/main/res/drawable/india_flag.xml" value="0.4075" />
+        <entry key="app/src/main/res/drawable/toolbar_drop_shadow.xml" value="0.4075" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.39427083333333335" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.39427083333333335" />
         <entry key="app/src/main/res/layout/fragment_news_home.xml" value="0.39427083333333335" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.39427083333333335" />
-        <entry key="app/src/main/res/layout/fragment_tabs.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_tabs.xml" value="0.25" />
         <entry key="app/src/main/res/layout/news_row.xml" value="0.44163513183593756" />
         <entry key="app/src/main/res/menu/logout.xml" value="0.4083333333333333" />
       </map>

@@ -6,4 +6,7 @@
     <string name="facebook_app_id">1968924503312683</string>
     <string name="fb_login_protocol_scheme">fb1968924503312683</string>
     <string name="facebook_client_token">763edc3998bdaf8d112743f0d103e653</string>
+    <string name="register_now">Dont have an Account? <font color="#FF0000">Register Now</font></string>
+    <string name="terms">     I agree with <b><u><font color="#FF0000">term &amp; condition</font></u></b></string>
+    <string name="already_have_account">Already have an Account? <font color="#FF0000">Sign In!</font></string>
 </resources>

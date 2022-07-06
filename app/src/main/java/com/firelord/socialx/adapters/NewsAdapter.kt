@@ -1,6 +1,7 @@
 package com.firelord.socialx.adapters
 
-import android.media.Image
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.firelord.socialx.R
 import com.firelord.socialx.models.Article
-import okhttp3.internal.http2.Http2Connection
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder> (){
 
@@ -59,14 +59,10 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder> (){
             holder.tvTime.text = article.publishedAt
             holder.tvDetails.text = article.description
             setOnClickListener {
-                onItemClickListener?.let { it(article) }
+                val uri: Uri = Uri.parse(article.url)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                context.startActivity(intent)
             }
         }
-    }
-
-    private var onItemClickListener: ((Article) -> Unit)? = null
-
-    fun setOnItemClickListener (listener: (Article) -> Unit) {
-        onItemClickListener = listener
     }
 }

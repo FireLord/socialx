@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder> (){
 
@@ -54,21 +55,45 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder> (){
         return differ.currentList.size
     }
 
-    fun String.getFormattedDate(): String {
+    fun String.getPrettyDateTime(): String {
         val readFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
         readFormatter.timeZone = TimeZone.getDefault()
 
-        val outputFormatter = SimpleDateFormat("MMM dd, hh:mm", Locale.ENGLISH)
-        outputFormatter.timeZone = TimeZone.getDefault()
+        var result = ""
+        val suffix = "ago"
+        try {
+            val pastTime = readFormatter.parse(this)
+            val now = Date()
 
-        val result = try {
-            val convertedDate = readFormatter.parse(this)
-            convertedDate?.let { outputFormatter.format(it) }
+            val diff = now.time - (pastTime?.time ?: 0)
+            val second = TimeUnit.MILLISECONDS.toSeconds(diff)
+            val minute = TimeUnit.MILLISECONDS.toMinutes(diff)
+            val hour = TimeUnit.MILLISECONDS.toHours(diff)
+            val day = TimeUnit.MILLISECONDS.toDays(diff)
+
+            if (second < 60) {
+                result = "$second Seconds $suffix"
+            } else if (minute < 60) {
+                result = "$minute Minutes $suffix"
+            } else if (hour < 24) {
+                result = "$hour Hours $suffix"
+            } else if (day >= 7) {
+                result = if (day > 360) {
+                    "${(day / 360)} Years $suffix"
+                } else if (day > 30) {
+                    "${(day / 30)} Months $suffix"
+                } else {
+                    "${(day / 7)} Week $suffix"
+                }
+            } else if (day < 7) {
+                result = "$day Days $suffix"
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            this
+            result = this
         }
-        return result ?: this
+
+        return result
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
@@ -77,7 +102,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder> (){
             Glide.with(this).load(article.urlToImage).into(holder.ivNewsImage)
             holder.tvSource.text = article.source?.name
             holder.tvTitle.text = article.title
-            holder.tvTime.text = article.publishedAt?.getFormattedDate()
+            holder.tvTime.text = article.publishedAt?.getPrettyDateTime()
             holder.tvDetails.text = article.description
             setOnClickListener {
                 val uri: Uri = Uri.parse(article.url)

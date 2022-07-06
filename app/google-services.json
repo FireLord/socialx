@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "194760358496-e023ntbaitgj8489vbmq9ud53bed9g2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.firelord.socialx",
+            "certificate_hash": "286963b3ce8c74af260448f7b8c8fc8bdda98cbf"
+          }
+        },
+        {
           "client_id": "194760358496-2bj5h73kdpsg6koom4vd6u9rf8neb7qg.apps.googleusercontent.com",
           "client_type": 3
         }

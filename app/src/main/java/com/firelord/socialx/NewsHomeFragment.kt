@@ -1,13 +1,11 @@
 package com.firelord.socialx
 
 import android.os.Bundle
+import android.view.*
+import android.view.Menu
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
-import com.firelord.socialx.databinding.FragmentHomeBinding
 import com.firelord.socialx.databinding.FragmentNewsHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -24,17 +22,24 @@ class NewsHomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_news_home, container, false)
-
+        setHasOptionsMenu(true)
         // init firebase auth
         firebaseAuth = FirebaseAuth.getInstance()
-
-        // handle click, logout
-        binding.btLogout.setOnClickListener {
-            firebaseAuth.signOut()
-            it.findNavController().navigate(R.id.action_newsHomeFragment_to_homeFragment)
-        }
 
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu,inflater: MenuInflater) {
+        inflater.inflate(R.menu.logout, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.logout -> {
+                firebaseAuth.signOut()
+                view?.findNavController()?.navigate(R.id.action_newsHomeFragment_to_homeFragment)
+            }
+        }
+        return true
+    }
 }

@@ -4,7 +4,8 @@ A [NewsApi.org](https://newsapi.org/) based app. This app uses api call from new
 
 ## Download / watch
 You can download the app to test by pressing this [Download](https://github.com/FireLord/socialx/raw/master/app-debug.apk)
-Or you can view the app demo [video](https://github.com/FireLord/socialx/raw/master/screen-20220529-152000.mp4)
+Or you can view the app demo video
+https://github.com/FireLord/socialx/raw/master/screen-20220529-152000.mp4
 
 ## Tech stack
 

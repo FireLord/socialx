@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding=DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val newsRepository = NewsRepository(ArticleDatabase(this))
-        val viewModelProviderFactory = NewsViewModelProviderFactory(newsRepository)
+        val viewModelProviderFactory = NewsViewModelProviderFactory(application,newsRepository)
         viewModel = ViewModelProvider(this,viewModelProviderFactory).get(NewsViewModel::class.java)
     }
 }

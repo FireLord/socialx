@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.AbsListView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -101,6 +102,7 @@ class NewsHomeFragment : Fragment() {
                     hideProgressBar()
                     response.message?.let { message ->
                         Log.e(TAG, "An error occured: $message")
+                        Toast.makeText(activity,"Error occured $message",Toast.LENGTH_SHORT).show()
 
                     }
                 }
@@ -133,6 +135,7 @@ class NewsHomeFragment : Fragment() {
                     hideProgressBar()
                     response.message?.let { message ->
                         Log.e(TAG, "An error occured: $message")
+                        Toast.makeText(activity,"Error occured $message",Toast.LENGTH_SHORT).show()
 
                     }
                 }

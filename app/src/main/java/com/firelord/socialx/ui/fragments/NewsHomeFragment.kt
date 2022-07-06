@@ -3,17 +3,20 @@ package com.firelord.socialx.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AbsListView
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firelord.socialx.R
 import com.firelord.socialx.adapters.NewsAdapter
 import com.firelord.socialx.databinding.FragmentNewsHomeBinding
 import com.firelord.socialx.ui.MainActivity
 import com.firelord.socialx.ui.NewsViewModel
+import com.firelord.socialx.util.Constants.Companion.QUERY_PAGE_SIZE
 import com.firelord.socialx.util.Constants.Companion.SEARCH_TIME_DELAY
 import com.firelord.socialx.util.Resource
 import com.google.firebase.auth.FirebaseAuth
@@ -116,7 +119,12 @@ class NewsHomeFragment : Fragment() {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { newsResponse ->
-                        newsAdapter.differ.submitList(newsResponse.articles)
+                        newsAdapter.differ.submitList(newsResponse.articles.toList())
+                        val totalPage = newsResponse.totalResults / QUERY_PAGE_SIZE + 2
+                        isLastPage = viewModel.allNewsPage == totalPage
+                        if(isLastPage){
+                            binding.rvAllNews.setPadding(0,0,0,0)
+                        }
                     }
                 }
                 is Resource.Error -> {
@@ -136,10 +144,45 @@ class NewsHomeFragment : Fragment() {
 
     private fun hideProgressBar(){
         binding.progressBar.visibility = View.INVISIBLE
+        isLoading = false
     }
 
     private fun showProgressBar(){
         binding.progressBar.visibility = View.VISIBLE
+        isLoading = true
+    }
+
+    var isLoading = false
+    var isLastPage = false
+    var isScrolling = false
+
+    val scrollListener = object : RecyclerView.OnScrollListener(){
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isNotLoadingAndNotBottom = !isLoading && !isLastPage
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtStart = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount > QUERY_PAGE_SIZE
+            val shouldPaginate = isNotLoadingAndNotBottom && isAtLastItem && isNotAtStart &&
+                    isTotalMoreThanVisible && isScrolling
+            if(shouldPaginate){
+                viewModel.getAllNews("in")
+                isScrolling = false
+            }
+        }
     }
 
     private fun setupRecyclerView(){
@@ -147,6 +190,7 @@ class NewsHomeFragment : Fragment() {
         binding.rvAllNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
+            addOnScrollListener(this@NewsHomeFragment.scrollListener)
         }
     }
 }

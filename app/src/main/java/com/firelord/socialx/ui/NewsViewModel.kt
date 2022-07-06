@@ -14,10 +14,12 @@ class NewsViewModel(
 ): ViewModel() {
 
     val allNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    val allNewsPage = 1
+    var allNewsPage = 1
+    var allNewsResponse: NewsResponse? = null
 
     val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    val searchNewsPage = 1
+    var searchNewsPage = 1
+    var searchNewsResponse: NewsResponse? = null
 
     init {
         getAllNews("in",)
@@ -39,7 +41,15 @@ class NewsViewModel(
     private fun handleAllNewsResponse(response: Response<NewsResponse>) : Resource<NewsResponse> {
         if (response.isSuccessful){
             response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
+                allNewsPage++
+                if (allNewsResponse==null){
+                    allNewsResponse = resultResponse
+                } else{
+                    val oldArticles = allNewsResponse?.articles
+                    val newArticles = resultResponse.articles
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(allNewsResponse?: resultResponse)
             }
         }
         return Resource.Error(response.message())
@@ -48,7 +58,15 @@ class NewsViewModel(
     private fun handleSearchNewsResponse(response: Response<NewsResponse>) : Resource<NewsResponse> {
         if (response.isSuccessful){
             response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
+                searchNewsPage++
+                if(searchNewsResponse == null){
+                    searchNewsResponse = resultResponse
+                } else {
+                    val  oldArticles = searchNewsResponse?.articles
+                    val newArticles = resultResponse.articles
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(searchNewsResponse?: resultResponse)
             }
         }
         return Resource.Error(response.message())

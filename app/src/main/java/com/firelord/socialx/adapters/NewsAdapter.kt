@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.firelord.socialx.R
 import com.firelord.socialx.models.Article
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder> (){
 
@@ -50,13 +54,30 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder> (){
         return differ.currentList.size
     }
 
+    fun String.getFormattedDate(): String {
+        val readFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
+        readFormatter.timeZone = TimeZone.getDefault()
+
+        val outputFormatter = SimpleDateFormat("MMM dd, hh:mm", Locale.ENGLISH)
+        outputFormatter.timeZone = TimeZone.getDefault()
+
+        val result = try {
+            val convertedDate = readFormatter.parse(this)
+            convertedDate?.let { outputFormatter.format(it) }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            this
+        }
+        return result ?: this
+    }
+
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = differ.currentList[position]
         holder.itemView.apply {
             Glide.with(this).load(article.urlToImage).into(holder.ivNewsImage)
             holder.tvSource.text = article.source?.name
             holder.tvTitle.text = article.title
-            holder.tvTime.text = article.publishedAt
+            holder.tvTime.text = article.publishedAt?.getFormattedDate()
             holder.tvDetails.text = article.description
             setOnClickListener {
                 val uri: Uri = Uri.parse(article.url)

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/tabsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_newsHomeFragment2"
+            app:destination="@id/newsHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/tabsFragment"

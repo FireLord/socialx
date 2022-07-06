@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.firelord.socialx.databinding.FragmentHomeBinding
 import com.firelord.socialx.databinding.FragmentNewsHomeBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -30,7 +31,7 @@ class NewsHomeFragment : Fragment() {
         // handle click, logout
         binding.btLogout.setOnClickListener {
             firebaseAuth.signOut()
-            binding.tvLogout.text = "Logged out"
+            it.findNavController().navigate(R.id.action_newsHomeFragment_to_homeFragment)
         }
 
         return binding.root

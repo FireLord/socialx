@@ -3,7 +3,6 @@ package com.firelord.socialx
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.PatternMatcher
 import android.text.TextUtils
 import android.util.Patterns
 import androidx.fragment.app.Fragment
@@ -14,7 +13,6 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.firelord.socialx.databinding.FragmentLoginBinding
-import com.firelord.socialx.databinding.FragmentTabsBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
@@ -44,7 +42,6 @@ class LoginFragment : Fragment() {
 
         // init firebaseauth
         firebaseAuth = FirebaseAuth.getInstance()
-        checkUser()
 
         // handle click, open sign up page
         binding.tvNoAccount.setOnClickListener {
@@ -94,8 +91,7 @@ class LoginFragment : Fragment() {
                 Toast.makeText(activity, "Logged in as $email",Toast.LENGTH_SHORT).show()
 
                 // open newsHome
-                startActivity(Intent(activity,NewsHomeFragment::class.java))
-                activity?.finish()
+                view?.findNavController()?.navigate(R.id.action_tabsFragment_to_newsHomeFragment)
             }
             .addOnFailureListener { e ->
                 // login failed
@@ -105,14 +101,4 @@ class LoginFragment : Fragment() {
             }
     }
 
-    private fun checkUser(){
-        // if user is already logged in go to profile activity
-        // get current user
-        val firebaseUser = firebaseAuth.currentUser
-        if (firebaseUser != null){
-            // user is already logged in
-            startActivity(Intent(activity,SignUpFragment::class.java))
-            activity?.finish()
-        }
-    }
 }

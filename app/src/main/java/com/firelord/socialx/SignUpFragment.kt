@@ -92,7 +92,6 @@ class SignUpFragment : Fragment() {
 
                 // open profile
                 view?.findNavController()?.navigate(R.id.action_tabsFragment_to_newsHomeFragment)
-                activity?.finish()
             }
             .addOnFailureListener { e->
                 //sign up failed
@@ -100,6 +99,4 @@ class SignUpFragment : Fragment() {
                 Toast.makeText(activity,"Sign up Failed due to ${e.message}",Toast.LENGTH_SHORT).show()
             }
     }
-
-
 }

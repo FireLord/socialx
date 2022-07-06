@@ -72,11 +72,13 @@ class NewsHomeFragment : Fragment() {
                 delay(SEARCH_TIME_DELAY)
                 editable?.let {
                     if(editable.toString().isNotEmpty()) {
+                        isSearch = true
                         viewModel.searchNews(editable.toString())
                     }
                     else{
                         // when user has clearned search query show the
                         // default news list in rv
+                        isSearch = false
                         allNews()
                     }
                 }
@@ -156,6 +158,8 @@ class NewsHomeFragment : Fragment() {
     var isLastPage = false
     var isScrolling = false
 
+    var isSearch = false
+
     val scrollListener = object : RecyclerView.OnScrollListener(){
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
@@ -179,8 +183,13 @@ class NewsHomeFragment : Fragment() {
             val shouldPaginate = isNotLoadingAndNotBottom && isAtLastItem && isNotAtStart &&
                     isTotalMoreThanVisible && isScrolling
             if(shouldPaginate){
-                viewModel.getAllNews("in")
-                isScrolling = false
+                if (isSearch){
+                    viewModel.searchNews(binding.etSearchNews.toString())
+                    isScrolling = false
+                } else {
+                    viewModel.getAllNews("in")
+                    isScrolling = false
+                }
             }
         }
     }

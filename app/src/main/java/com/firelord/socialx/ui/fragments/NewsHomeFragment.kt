@@ -1,4 +1,4 @@
-package com.firelord.socialx
+package com.firelord.socialx.ui.fragments
 
 import android.os.Bundle
 import android.view.*
@@ -6,6 +6,7 @@ import android.view.Menu
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import com.firelord.socialx.R
 import com.firelord.socialx.databinding.FragmentNewsHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -21,7 +22,7 @@ class NewsHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_news_home, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news_home, container, false)
         setHasOptionsMenu(true)
         // init firebase auth
         firebaseAuth = FirebaseAuth.getInstance()

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.firelord.socialx.HomeFragment"
+        android:name="com.firelord.socialx.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.firelord.socialx.TabHolderFragment"
+        android:name="com.firelord.socialx.ui.fragments.TabHolderFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_tabs" >
         <action
@@ -34,12 +34,12 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.firelord.socialx.SignUpFragment"
+        android:name="com.firelord.socialx.ui.fragments.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
     <fragment
         android:id="@+id/newsHomeFragment"
-        android:name="com.firelord.socialx.NewsHomeFragment"
+        android:name="com.firelord.socialx.ui.fragments.NewsHomeFragment"
         android:label="fragment_news_home"
         tools:layout="@layout/fragment_news_home" >
         <action
@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.firelord.socialx.LoginFragment"
+        android:name="com.firelord.socialx.ui.fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
 </navigation>

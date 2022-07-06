@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.firelord.socialx.LoginFragment
-import com.firelord.socialx.SignUpFragment
+import com.firelord.socialx.ui.fragments.LoginFragment
+import com.firelord.socialx.ui.fragments.SignUpFragment
 
 class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager,lifecycle)
 {

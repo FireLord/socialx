@@ -1,4 +1,4 @@
-package com.firelord.socialx
+package com.firelord.socialx.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import com.firelord.socialx.R
 import com.firelord.socialx.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -22,7 +23,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home, container, false)
+        binding=DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.btStart.setOnClickListener {
             firebaseAuth = FirebaseAuth.getInstance()
             val firebaseUser = firebaseAuth.currentUser

@@ -1,7 +1,6 @@
-package com.firelord.socialx
+package com.firelord.socialx.ui.fragments
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
@@ -12,18 +11,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
-import com.firelord.socialx.databinding.FragmentLoginBinding
+import com.firelord.socialx.R
+import com.firelord.socialx.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginFragment : Fragment() {
+class SignUpFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
+    private lateinit var binding: FragmentSignUpBinding
 
     // Progress Dialog
     private lateinit var progressDialog: ProgressDialog
 
-    // FireBase Auth
-    private lateinit var firebaseAuth : FirebaseAuth
+    // firebase auth
+    private lateinit var firebaseAuth: FirebaseAuth
     private var email = ""
     private var password = ""
 
@@ -32,73 +32,71 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_login, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
 
         // config progress dialog
         progressDialog = ProgressDialog(activity)
         progressDialog.setTitle("Please wait")
-        progressDialog.setMessage("Logging in..")
+        progressDialog.setMessage("creating account in..")
         progressDialog.setCanceledOnTouchOutside(false)
 
-        // init firebaseauth
+        // init firebase auth
         firebaseAuth = FirebaseAuth.getInstance()
 
-        // handle click, open sign up page
-        binding.tvNoAccount.setOnClickListener {
-            it.findNavController().navigate(R.id.action_tabsFragment_to_signUpFragment)
-        }
-
-        // handle click, begin login
-        binding.btLogin.setOnClickListener{
-            //before logging in, validate data
+        // handle click, begin sign up
+        binding.btSignUp.setOnClickListener {
+            //validate data
             validateData()
-
         }
+
 
         return binding.root
     }
 
     private fun validateData() {
-        email = binding.etEmail.text.toString().trim()
-        password = binding.etPass.text.toString().trim()
+        // get data
+        email = binding.etEmailSignUp.text.toString().trim()
+        password = binding.etPassSignUp.text.toString().trim()
 
         // validate data
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             // invalid email format
-            binding.etEmail.error = "Invalid email format"
+            binding.etEmailSignUp.error = "Invalid email format"
         }
         else if (TextUtils.isEmpty(password)){
             // no password entered
-            binding.etPass.error = "please enter password"
+            binding.etPassSignUp.error = "please enter password"
+        }
+        else if (password.length <6){
+            // password length is less than 6
+            binding.etPassSignUp.error = "Password must be atleast 6 char long"
         }
         else {
-            // data is validated, begin login
-            firebaseLogin()
+            // data is validated, continue sign up
+            firebaseSignUp()
         }
     }
 
-    private fun firebaseLogin() {
-        // show progress
+    private fun firebaseSignUp() {
         progressDialog.show()
-        firebaseAuth.signInWithEmailAndPassword(email,password)
-            .addOnSuccessListener {
-                //login success
-                progressDialog.dismiss()
 
-                //get user info
+        // create account
+        firebaseAuth.createUserWithEmailAndPassword(email,password)
+            .addOnSuccessListener {
+                //signup succss
+                progressDialog.dismiss()
+                // get current user
                 val firebaseUser = firebaseAuth.currentUser
                 val email = firebaseUser!!.email
-                Toast.makeText(activity, "Logged in as $email",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity,"Account created with email $email",Toast.LENGTH_SHORT).show()
 
-                // open newsHome
+                // open profile
                 view?.findNavController()?.navigate(R.id.action_tabsFragment_to_newsHomeFragment)
             }
-            .addOnFailureListener { e ->
-                // login failed
+            .addOnFailureListener { e->
+                //sign up failed
                 progressDialog.dismiss()
-                Toast.makeText(activity, "Login failed due to ${e.message}",Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(activity,"Sign up Failed due to ${e.message}",Toast.LENGTH_SHORT).show()
             }
     }
-
 }

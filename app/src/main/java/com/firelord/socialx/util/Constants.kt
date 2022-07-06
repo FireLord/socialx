@@ -8,5 +8,6 @@ class Constants {
         const val QUERY_PAGE_SIZE = 20
         const val RC_SIGN_IN = 100
         const val TAG = "GOOGLE_SIGN_IN_TAG"
+        const val TAG_FB = "FACEBOOK_SIGN_IN_TAG"
     }
 }

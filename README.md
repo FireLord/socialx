@@ -2,8 +2,9 @@
 
 A [NewsApi.org](https://newsapi.org/) based app. This app uses api call from newsapi site. The data comes in the json format. The app is based on latest MVVM arch. The app uses single activity to load all the fragments in that viewHolder. This method helps us to save memory on android. The app has search functionality too.
 
-## Download
+## Download / watch
 You can download the app to test by pressing this [Download](https://github.com/FireLord/socialx/raw/master/app-debug.apk)
+Or you can view the app demo [video](https://github.com/FireLord/socialx/raw/master/screen-20220529-152000.mp4)
 
 ## Tech stack
 
